@@ -1,0 +1,17 @@
+.info {
+    text-align: center;
+    color: #8f8f8f;
+}
+
+.body {
+    display: flex;
+    justify-content: space-between;
+}
+
+.right {
+    width: 200px;
+}
+.right>section ul {
+    height: 220px;
+    border: 1px solid #dadada;
+}

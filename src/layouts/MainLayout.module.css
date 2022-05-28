@@ -1,7 +1,7 @@
 .header {
     height: 50px;
     padding: 0 20px;
-    background: #5fc6c6;
+    background: #a0cfe5;
     display: flex;
     justify-content: space-between;
     line-height: 50px;
@@ -25,13 +25,15 @@
 }
 
 .menu {
-    width: 108px;
+    width: 158px;
     margin-right: 100px;
     padding: 10px;
+    background: #ffffff;
     border: 1px solid #5fc6c6;
     text-align: center;
 }
 .menu h1 {
+    background: #dceef7;
     border: 1px solid #d0d0d0;
     font-size: larger;
 }
@@ -42,7 +44,8 @@
 }
 
 .content {
-    background: #5fc6c6;
+    width: 100%;
+    background: #ffffff;
 }
 
 /*登录关闭按钮*/

@@ -72,7 +72,7 @@ export const MainLayout = (props: Props) => {
                 <div>
                     <h1>{menuItems[1].title}</h1>
                     {menuItems[1].children.map(i => (
-                        <div>
+                        <div key={i.name}>
                             <Link to={i.link}>{i.name}</Link>
                         </div>
                     ))}
