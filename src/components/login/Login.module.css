@@ -1,0 +1,37 @@
+.login_page {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: fixed;    /*用来占满屏幕*/
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0,0,0,.3);
+}
+
+.container {
+    width: 318px;
+    height: 305px;
+    padding: 20px;
+    /*position: absolute;*/
+    /*top: 20%;*/
+    /*left: 40%;*/
+    background: #fff;
+}
+.container header {
+    margin-bottom: 10px;
+    display: flex;
+    justify-content: space-between;
+    font-size: 20px;
+}
+
+/*短信验证*/
+.text {
+    display: flex;
+}
+
+/*提交*/
+.submit {
+    width: 100%;
+}

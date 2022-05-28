@@ -6,14 +6,17 @@
     justify-content: space-between;
     line-height: 50px;
 }
-
 .header h2 {
     margin: 0;
 }
-
 .header img {
     width: 20px;
     margin-right: 10px;
+}
+
+.no_sign {}
+.no_sign>span {
+    color: white;
 }
 
 .body {
@@ -40,4 +43,16 @@
 
 .content {
     background: #5fc6c6;
+}
+
+/*登录关闭按钮*/
+.close {
+    width: 25px;
+    height: 25px;
+    border: none;
+    background: white;
+    cursor: pointer;
+}
+.close span {
+    height: 25px;
 }
