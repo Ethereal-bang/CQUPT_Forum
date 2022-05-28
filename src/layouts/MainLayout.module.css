@@ -1,0 +1,43 @@
+.header {
+    height: 50px;
+    padding: 0 20px;
+    background: #5fc6c6;
+    display: flex;
+    justify-content: space-between;
+    line-height: 50px;
+}
+
+.header h2 {
+    margin: 0;
+}
+
+.header img {
+    width: 20px;
+    margin-right: 10px;
+}
+
+.body {
+    margin-top: 10px;
+    display: flex;
+}
+
+.menu {
+    width: 108px;
+    margin-right: 100px;
+    padding: 10px;
+    border: 1px solid #5fc6c6;
+    text-align: center;
+}
+.menu h1 {
+    border: 1px solid #d0d0d0;
+    font-size: larger;
+}
+.menu>div>div {
+    height: 25px;
+    border-bottom: 1px solid #d0d0d0;
+
+}
+
+.content {
+    background: #5fc6c6;
+}
