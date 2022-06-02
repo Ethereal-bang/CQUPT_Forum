@@ -35,3 +35,14 @@
 .submit {
     width: 100%;
 }
+
+/*倒计时组件*/
+.count, .count div {
+    display: inline;
+    vertical-align: top;
+}
+.count span {
+    font-size: 21px;
+    line-height: 19px;
+    color: #a7a7a7;
+}
