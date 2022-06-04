@@ -14,14 +14,14 @@ const { Countdown } = Statistic;
 export const Login = (props: Props) => {
     const {callState, children} = props;
     const [email, setEmail] = useState<string>();
-    const [countdown, setCountdown] = useState<boolean>(true); // 倒计时显示状态
+    const [countdown, setCountdown] = useState<boolean>(false); // 倒计时显示状态
 
     const navigate = useNavigate();
 
     // 获取验证码
     function getText() {
         if (email) {
-            verify(email).then(r => {
+            verify().then(r => {
                 if (r.data.flag) {
                     // 邮件发送成功
                     message.success(r.data.msg);
@@ -41,7 +41,7 @@ export const Login = (props: Props) => {
             if (r.data.flag) {  // 验证成功，可以登录
                 message.success(r.data.msg);
                 localStorage.setItem("email", values.email);
-                navigate("/home");
+                window.location.reload();
             } else {
                 message.error(r.data.msg);
             }
