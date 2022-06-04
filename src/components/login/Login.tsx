@@ -16,12 +16,10 @@ export const Login = (props: Props) => {
     const [email, setEmail] = useState<string>();
     const [countdown, setCountdown] = useState<boolean>(false); // 倒计时显示状态
 
-    const navigate = useNavigate();
-
     // 获取验证码
     function getText() {
         if (email) {
-            verify().then(r => {
+            verify(email).then(r => {
                 if (r.data.flag) {
                     // 邮件发送成功
                     message.success(r.data.msg);

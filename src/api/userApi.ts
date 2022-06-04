@@ -1,8 +1,8 @@
 import {axiosInstance} from "./createAxios";
 import {AxiosResponse} from "axios";
-const email = localStorage.getItem("email");
+const email = localStorage.getItem("email");    // 对于已登录api
 
-export const verify = (): Promise<AxiosResponse> => {
+export const verify = (email: string): Promise<AxiosResponse> => {
     return axiosInstance.get("/user/verify", {
         params: {
             email,

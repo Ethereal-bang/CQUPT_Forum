@@ -49,15 +49,20 @@ export const MainLayout = (props: Props) => {
     const [infoState, setInfoState] = useState<boolean>(false);
     const [userInfo, setUserInfo] = useState<User>();
 
-    const userItems = <Menu items={[{
-        key: "1",
-        label: (<Button
-            onClick={() => setInfoState(true)}
-        >个人资料</Button>)
-    }, {
-        key: "2",
-        label: (<Button>退出登录</Button>)
-    }
+    const userItems = <Menu items={[
+        {
+            key: "1",
+            label: <Button
+                onClick={() => setInfoState(true)}
+            >个人资料</Button>
+        }, {
+            key: "2",
+            label: <Button onClick={() => {
+                localStorage.removeItem("email")
+                window.location.reload();
+            }
+            }>退出登录</Button>
+        }
     ]}/>
 
     /*获取登录状态*/
@@ -89,7 +94,6 @@ export const MainLayout = (props: Props) => {
 
     // 提交修改个人资料
     function submitInfo(value: any) {
-        console.log(value)
         set(value.name, value.img).then(r => {
             const {data} = r.data;
             if (data.flag) {
@@ -220,7 +224,7 @@ export const MainLayout = (props: Props) => {
                 </Form.Item>
             </Form>
             <Card title={"当前个人信息"}>
-                <Avatar src={userInfo?.avatarLink} />
+                <Avatar src={userInfo?.avatarLink}/>
                 <span>{userInfo?.name}</span>
             </Card>
         </Modal>
