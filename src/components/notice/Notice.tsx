@@ -1,11 +1,13 @@
 import styles from "./Notice.module.css";
-import {Breadcrumb, Tabs} from "antd";
+import {Breadcrumb, List, Tabs} from "antd";
 import {useEffect, useState} from "react";
 import {Link} from "react-router-dom";
 import homeIcon from "../../assets/icons/home.png";
 import Search from "antd/es/input/Search";
 import {showNotices, showPosts} from "../../api/articleApi";
 import {NoticeInterface, Post} from "../../interfaces";
+import topIcon from "../../assets/icons/top.png";
+import visitIcon from "../../assets/icons/visit.png";
 
 const {TabPane} = Tabs;
 
@@ -39,6 +41,7 @@ export const Notice = () => {
                     return new Map(postList);
                 })
             })
+        console.log(infoList?.get("game"))
     }, [])
 
     return <>
@@ -66,8 +69,64 @@ export const Notice = () => {
             <section className={styles["left"]}>
                 <Tabs className={styles["tabs"]}>
                     <TabPane tab={"校园公告"} key={"1"}>
+                        <List
+                            className={styles["list"]}
+                            itemLayout={"vertical"}
+                            bordered
+                            dataSource={infoList?.get("notice")}
+                            renderItem={item => (
+                                <List.Item>
+                                    <List.Item.Meta
+                                        avatar={<img src={topIcon} alt={"icon"} />}
+                                        title={item.title}
+                                        description={
+                                            <div
+                                                style={{
+                                                    display: "flex",
+                                                    justifyContent: "space-between"
+                                                }}
+                                            >
+                                                <span>{item.createTime}</span>
+                                                <span>
+                                                    <img src={visitIcon} alt={"icon"} />
+                                                    {item.visit}
+                                                </span>
+                                            </div>
+                                        }
+                                    />
+                                </List.Item>
+                            )}
+                        />
                     </TabPane>
                     <TabPane tab={"比赛通知"} key={"2"}>
+                        <List
+                            className={styles["list"]}
+                            itemLayout={"vertical"}
+                            dataSource={infoList?.get("game")}
+                            bordered
+                            renderItem={item => (
+                                <List.Item>
+                                    <List.Item.Meta
+                                        avatar={<img src={topIcon} alt={"icon"} />}
+                                        title={item.title}
+                                        description={
+                                            <div
+                                                style={{
+                                                    display: "flex",
+                                                    justifyContent: "space-between"
+                                                }}
+                                            >
+                                                <span>{item.createTime}</span>
+                                                <span>
+                                                    <img src={visitIcon} alt={"icon"} />
+                                                    {item.visit}
+                                                </span>
+                                            </div>
+                                        }
+                                    />
+                                </List.Item>
+                            )}
+                        />
                     </TabPane>
                 </Tabs>
             </section>

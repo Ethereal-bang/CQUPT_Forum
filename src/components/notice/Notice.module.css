@@ -22,8 +22,13 @@
     justify-content: space-between;
 }
 
+.list {
+    width: 832px;
+}
+
 .right {
-    width: 200px;
+    width: 302px;
+    margin-right: 10px;
 }
 .right>section ul {
     height: 220px;
