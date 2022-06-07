@@ -17,6 +17,7 @@ export interface NoticeInterface extends Article {
 
 export interface Post extends Article {
     type: "posts",
+    author: string,
     area: "share" | "study" | "tech" | "work",
     updateTime: string,
     comment: number,

@@ -1,0 +1,16 @@
+.header {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+}
+.header>section {
+    display: flex;
+}
+
+.banner {
+    height: 50px;
+    padding-left: 15px;
+    font-size: 18px;
+    line-height: 40px;
+    background: #fef1e0;
+}

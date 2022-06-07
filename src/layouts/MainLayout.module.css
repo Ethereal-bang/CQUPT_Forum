@@ -46,6 +46,7 @@
 .content {
     width: 100%;
     background: #ffffff;
+    padding: 10px;
 }
 
 /*登录关闭按钮*/
