@@ -1,7 +1,7 @@
 import {axiosInstance} from "./createAxios";
 
 export const getArticle = (id: number) => {
-    return axiosInstance.get("/article" + id);
+    return axiosInstance.get("/article/" + id);
 }
 
 export const showNotices = () => {

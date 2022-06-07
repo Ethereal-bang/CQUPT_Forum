@@ -1,0 +1,37 @@
+.header {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+}
+.header>section {
+    display: flex;
+}
+
+.article {
+    border: 1px #efefef solid;
+}
+.article>section {
+    text-align: center;
+}
+.article>h1 {
+    font-size: 20px;
+    text-align: center;
+    line-height: 25px;
+    border-bottom: 1px solid #efefef;
+}
+
+.comment>h1 {
+    font-size: 20px;
+}
+
+.post {
+    border: 1px #efefef solid;
+    margin-bottom: 20px;
+}
+.post input {
+    border: none;
+}
+.post>button {
+    float: right;
+    background: #fcdeb7;
+}

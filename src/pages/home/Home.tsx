@@ -1,7 +1,7 @@
 import {MainLayout} from "../../layouts/MainLayout";
 import {Route, Routes} from "react-router-dom";
 // import styles from "./Home.module.css";
-import {Discuss, Notice} from "../../components";
+import {Detail, Discuss, Notice} from "../../components";
 
 export const Home = () => {
 
@@ -12,6 +12,7 @@ export const Home = () => {
                 <Route path={"/discuss_study"} element={<Discuss />} />
                 <Route path={"/discuss_technology"} element={<Discuss />} />
                 <Route path={"/discuss_work"} element={<Discuss />} />
+                <Route path={"/article/:id"} element={<Detail />} />
                 <Route path={"/*"} element={<Notice />} />
             </Routes>
         </MainLayout>

@@ -9,7 +9,7 @@ import visitIcon from "../../assets/icons/visit.png";
 import {Post} from "../../interfaces";
 import {showPosts} from "../../api/articleApi";
 
-const titleMap: any = {
+export const titleMap: any = {
     share: "日常分享",
     study: "学业互助",
     technology: "技术交流",
@@ -76,7 +76,7 @@ export const Discuss = () => {
                 <List.Item>
                     <List.Item.Meta
                         avatar={<img src={topIcon} alt={"icon"}/>}
-                        title={item.title}
+                        title={<Link to={`/home/article/${item.id}`} state={{area, id: item.id}}>{item.title}</Link>}
                         description={
                             <div
                                 style={{
