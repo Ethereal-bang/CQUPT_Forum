@@ -22,3 +22,11 @@ export interface Post extends Article {
     updateTime: string,
     comment: number,
 }
+
+export interface User {
+    id: number,
+    email: string,
+    name: string,
+    avatarOrder: number,
+    avatarLink: string,
+}

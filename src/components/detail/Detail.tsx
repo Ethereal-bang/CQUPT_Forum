@@ -6,14 +6,16 @@ import homeIcon from "../../assets/icons/home.png";
 import Search from "antd/es/input/Search";
 import {titleMap} from "../discuss/Discuss";
 import {getArticle} from "../../api/articleApi";
-import {Post} from "../../interfaces";
+import {Post, User} from "../../interfaces";
 import visitIcon from "../../assets/icons/visit.png";
+import {infoByName} from "../../api/userApi";
 
 export const Detail = () => {
     const state = useLocation().state as {area: string, id: number};
     const [area, setArea] = useState<string>(state.area);
     const [id, setId] = useState<number>(state.id);
     const [article, setArticle] = useState<Post>();
+    const [author, setAuthor] = useState<User>();
 
     // 更新area, id
     useEffect(() => {
@@ -21,12 +23,16 @@ export const Detail = () => {
         setId(state.id);
     }, [state])
 
-    // 请求文章
+    // 请求文章、作者信息
     useEffect(() => {
         getArticle(id)
             .then(r => {
-                console.log(r.data.data.articles)
-                setArticle(r.data.data.articles);
+                const {articles} = r.data.data;
+                setArticle(articles);
+                infoByName(articles.author)
+                    .then(r => {
+                        setAuthor(r.data.data.user)
+                    })
             })
     }, [id])
 
@@ -73,7 +79,7 @@ export const Detail = () => {
         <section className={styles["comment"]}>
             <h1>评论</h1>
             <section className={styles["post"]}>
-                <Avatar />
+                <Avatar src={author?.avatarLink} />
                 <span>{article?.author}（我）</span>
                 <Input placeholder={"评论一下吧"} />
                 <Button>发布</Button>

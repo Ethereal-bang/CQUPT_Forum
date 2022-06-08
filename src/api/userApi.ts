@@ -31,3 +31,11 @@ export const set = (name: string, img: string) => {
         }
     })
 }
+
+export const infoByName = (name: string) => {
+    return axiosInstance.get("/user/info", {
+        params: {
+            name,
+        }
+    })
+}
