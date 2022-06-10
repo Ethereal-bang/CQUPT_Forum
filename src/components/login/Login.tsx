@@ -37,8 +37,11 @@ export const Login = (props: Props) => {
     function submit(values: any) {
         login(values.email, values.text).then(r => {
             if (r.data.flag) {  // 验证成功，可以登录
+                const {data} = r.data;
                 message.success(r.data.msg);
                 localStorage.setItem("email", values.email);
+                localStorage.setItem("avatar", data.avatarLink);
+                localStorage.setItem("id", data.id);
                 window.location.reload();
             } else {
                 message.error(r.data.msg);

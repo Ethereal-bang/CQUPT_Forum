@@ -1,21 +1,32 @@
 import styles from "./Detail.module.css";
 import {Link, useLocation} from "react-router-dom";
 import {useEffect, useState} from "react";
-import {Avatar, Breadcrumb, Button, Input, Space} from "antd";
+import {Avatar, Breadcrumb, Button, Input, message, Space} from "antd";
 import homeIcon from "../../assets/icons/home.png";
 import Search from "antd/es/input/Search";
 import {titleMap} from "../discuss/Discuss";
 import {getArticle} from "../../api/articleApi";
-import {Post, User} from "../../interfaces";
+import {News, Post, User} from "../../interfaces";
 import visitIcon from "../../assets/icons/visit.png";
 import {infoByName} from "../../api/userApi";
+import {send, showComment} from "../../api/newsApi";
+
+interface CommentPost extends News {
+    type: "comment" | "reply",
+    toComment?: string,  // 被回复的内容
+}
 
 export const Detail = () => {
-    const state = useLocation().state as {area: string, id: number};
+    const state = useLocation().state as { area: string, id: number };
     const [area, setArea] = useState<string>(state.area);
-    const [id, setId] = useState<number>(state.id);
+    const [id, setId] = useState<number>(state.id); // 文章id
     const [article, setArticle] = useState<Post>();
     const [author, setAuthor] = useState<User>();
+    const [comment, setComment] = useState<CommentPost>({
+        type: "comment",
+        sender: parseInt(localStorage.getItem("id") as string)
+    });
+    const [comments, setComments] = useState<News[]>();
 
     // 更新area, id
     useEffect(() => {
@@ -23,7 +34,7 @@ export const Detail = () => {
         setId(state.id);
     }, [state])
 
-    // 请求文章、作者信息
+    // 请求文章、作者信息、评论列表
     useEffect(() => {
         getArticle(id)
             .then(r => {
@@ -31,10 +42,45 @@ export const Detail = () => {
                 setArticle(articles);
                 infoByName(articles.author)
                     .then(r => {
-                        setAuthor(r.data.data.user)
+                        const { user } = r.data.data;
+                        setAuthor(user)
+                        setComment(comment => {
+                            return {
+                                ...comment,
+                                receiver: user.id,
+                                carrier_id: articles?.id
+                            }
+                        })
                     })
             })
+        showComment(id)
+            .then(r => {
+                console.log(r.data.data.list)
+                setComments(r.data.data.list);
+            })
     }, [id])
+
+    function postComment() {
+        send(comment)
+            .then(r => {
+                if (r.data.flag) {
+                    message.success(r.data.msg);
+                } else {
+                    message.error(r.data.msg);
+                }
+            });
+    }
+
+    function commentOn(news: News) {
+        setComment({
+            ...comment,
+            type: "reply",
+            carrier_id: news._id,    // 更新为回复的消息id
+            receiver: news.receiver,
+            name: news.name,
+            toComment: news.content,
+        })
+    }
 
     return <>
         <header className={styles["header"]}>
@@ -66,7 +112,7 @@ export const Detail = () => {
                     {article?.author}
                     {article?.createTime}
                     <>
-                        <img src={visitIcon} alt={"icon"} />
+                        <img src={visitIcon} alt={"icon"}/>
                         {article?.visit}
                     </>
                 </Space>
@@ -75,16 +121,42 @@ export const Detail = () => {
             <div>
                 {article?.content}
             </div>
+            <div>
+                <Button size={"small"}>点赞 | {article?.like}</Button>
+                <Button size={"small"}>收藏 | {article?.collection}</Button>
+            </div>
         </section>
         <section className={styles["comment"]}>
             <h1>评论</h1>
             <section className={styles["post"]}>
-                <Avatar src={author?.avatarLink} />
+                <Avatar src={author?.avatarLink}/>
                 <span>{article?.author}（我）</span>
-                <Input placeholder={"评论一下吧"} />
-                <Button>发布</Button>
+                {comment.type === "reply" && <Space>
+                    <span>to: {comment.name}</span>
+                    <i>“ {comment.toComment} ”</i>
+                </Space>}
+                <Input placeholder={"评论一下吧"} value={comment?.content} onChange={
+                    (e) => setComment({...comment, content: e.target.value})
+                }/>
+                <Button onClick={postComment}>发布</Button>
             </section>
             {/*评论列表*/}
+            <section>
+                {comments?.map(item => (
+                    <section className={styles["comment_box"]} key={item._id}>
+                        <div>
+                            <Avatar src={item.link}/>
+                            <span>{item.name}</span>
+                            <Button size={"small"}>...</Button>
+                        </div>
+                        <p>{item.content}</p>
+                        <Space>
+                            <span>{item.create_time}</span>
+                            <Button size={"small"} onClick={() => commentOn(item)}>回复</Button>
+                        </Space>
+                    </section>
+                ))}
+            </section>
         </section>
     </>
 }

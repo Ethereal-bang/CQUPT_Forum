@@ -35,3 +35,7 @@
     float: right;
     background: #fcdeb7;
 }
+
+.comment_box {
+    border: #efefef 1px solid;
+}

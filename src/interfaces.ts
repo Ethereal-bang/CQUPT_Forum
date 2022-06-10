@@ -30,3 +30,17 @@ export interface User {
     avatarOrder: number,
     avatarLink: string,
 }
+
+export interface News {
+    _id?: number,
+    sender?: number,
+    name?: string,
+    avatar_order?: number,
+    link?: string,
+    receiver?: number,
+    carrier_id?: number,
+    type?: string,
+    content?: string,
+    state?: boolean
+    create_time?: string,
+}
