@@ -20,7 +20,7 @@ export const Detail = () => {
     const state = useLocation().state as { area: string, id: number };
     const [area, setArea] = useState<string>(state.area);
     const [id, setId] = useState<number>(state.id); // 文章id
-    const [article, setArticle] = useState<Post>();
+    const [article, setArticle] = useState<Post>({type: "posts"});
     const [author, setAuthor] = useState<User>();
     const [comment, setComment] = useState<CommentPost>({
         type: "comment",
@@ -42,7 +42,7 @@ export const Detail = () => {
                 setArticle(articles);
                 infoByName(articles.author)
                     .then(r => {
-                        const { user } = r.data.data;
+                        const {user} = r.data.data;
                         setAuthor(user)
                         setComment(comment => {
                             return {
@@ -82,6 +82,37 @@ export const Detail = () => {
         })
     }
 
+    function likeOrCollect(type: "like" | "collect") {
+        let news: News = {
+            sender: parseInt(localStorage.getItem("id") as string),
+            receiver: author?.id,
+            carrier_id: article?.id,
+            type,
+            content: article?.title,
+        };
+        send(news)
+            .then(r => {
+                if (r.data.flag) {
+                    message.success(r.data.msg);
+                    setArticle(article => {
+                        if (type === "like") {
+                            return {
+                                ...article,
+                                like: article.like as number + 1,
+                            }
+                        } else {
+                            return {
+                                ...article,
+                                collection: article.collection as number + 1,
+                            }
+                        }
+                    })
+                } else {
+                    message.error(r.data.msg);
+                }
+            })
+    }
+
     return <>
         <header className={styles["header"]}>
             <Breadcrumb separator={">"}>
@@ -91,7 +122,9 @@ export const Detail = () => {
                     </Link>
                 </Breadcrumb.Item>
                 <Breadcrumb.Item>
-                    讨论区-{titleMap[area]}
+                    <Link to={"/home/discuss_" + area}>
+                        讨论区-{titleMap[area]}
+                    </Link>
                 </Breadcrumb.Item>
             </Breadcrumb>
             <section>
@@ -122,8 +155,8 @@ export const Detail = () => {
                 {article?.content}
             </div>
             <div>
-                <Button size={"small"}>点赞 | {article?.like}</Button>
-                <Button size={"small"}>收藏 | {article?.collection}</Button>
+                <Button size={"small"} onClick={() => likeOrCollect("like")}>点赞 | {article?.like}</Button>
+                <Button size={"small"} onClick={() => likeOrCollect("collect")}>收藏 | {article?.collection}</Button>
             </div>
         </section>
         <section className={styles["comment"]}>
