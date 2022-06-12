@@ -43,4 +43,5 @@ export interface News {
     content?: string,
     state?: boolean
     create_time?: string,
+    area?: string,
 }

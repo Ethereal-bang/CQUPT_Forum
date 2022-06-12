@@ -1,0 +1,9 @@
+.header {
+    display: flex;
+    justify-content: space-between;
+}
+
+.news_box {
+    width: 100%;
+    border-bottom: 1px solid #8f8f8f;
+}

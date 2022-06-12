@@ -38,10 +38,12 @@ export const Login = (props: Props) => {
         login(values.email, values.text).then(r => {
             if (r.data.flag) {  // 验证成功，可以登录
                 const {data} = r.data;
+                console.log("<Login />: ", data)
                 message.success(r.data.msg);
                 localStorage.setItem("email", values.email);
                 localStorage.setItem("avatar", data.avatarLink);
                 localStorage.setItem("id", data.id);
+                localStorage.setItem("name", data.name);
                 window.location.reload();
             } else {
                 message.error(r.data.msg);

@@ -55,7 +55,6 @@ export const Detail = () => {
             })
         showComment(id)
             .then(r => {
-                console.log(r.data.data.list)
                 setComments(r.data.data.list);
             })
     }, [id])
@@ -75,7 +74,6 @@ export const Detail = () => {
         setComment({
             ...comment,
             type: "reply",
-            carrier_id: news._id,    // 更新为回复的消息id
             receiver: news.receiver,
             name: news.name,
             toComment: news.content,

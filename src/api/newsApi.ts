@@ -17,3 +17,11 @@ export const send = (news: News) => {
     console.log(data)
     return axiosInstance.post("/news/send", data)
 }
+
+export const received = (receiver: number) => {
+    return axiosInstance.get("/news/received", {
+        params: {
+            receiver,
+        }
+    });
+}

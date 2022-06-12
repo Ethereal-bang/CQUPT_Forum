@@ -11,3 +11,19 @@ export const showNotices = () => {
 export const showPosts = () => {
     return axiosInstance.get("/article/post/showAll");
 }
+
+export const getPost = (author: string) => {
+    return axiosInstance.get("/article/post/onePosted", {
+        params: {
+            author,
+        }
+    });
+}
+
+export const getCollect = (id: number) => {
+    return axiosInstance.get("/article/oneCollected", {
+        params: {
+            id,
+        }
+    })
+}
