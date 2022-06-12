@@ -25,3 +25,11 @@ export const received = (receiver: number) => {
         }
     });
 }
+
+export const noReadCnt = (receiver: number) => {
+    return axiosInstance.get("/news/noRead", {
+        params: {
+            receiver,
+        }
+    })
+}

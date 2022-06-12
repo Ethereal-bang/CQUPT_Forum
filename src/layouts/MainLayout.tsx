@@ -3,10 +3,11 @@ import email from "../assets/icons/email.png";
 import user from "../assets/icons/user.png";
 import React, {ReactNode, useEffect, useState} from "react";
 import {Link} from "react-router-dom";
-import {Avatar, Button, Card, Dropdown, Form, Input, Menu, message, Modal, Radio} from "antd";
+import {Avatar, Badge, Button, Card, Dropdown, Form, Input, Menu, message, Modal, Radio} from "antd";
 import {Login} from "../components";
 import {showAll} from "../api/avatarApi";
 import {info, set} from "../api/userApi";
+import {noReadCnt} from "../api/newsApi";
 
 interface Props {
     children: ReactNode,
@@ -48,6 +49,7 @@ export const MainLayout = (props: Props) => {
     const [avatarList, setAvatarList] = useState<AvatarItem[]>();
     const [infoState, setInfoState] = useState<boolean>(false);
     const [userInfo, setUserInfo] = useState<User>();
+    const [noRead, setNoRead] = useState<number>(0);
 
     const userItems = <Menu items={[
         {
@@ -71,21 +73,29 @@ export const MainLayout = (props: Props) => {
             setLoginState(true);
         }
     }, [])
-
-    /*获取头像列表*/
+    
+    // 请求头像列表、个人信息
     useEffect(() => {
+        /*获取头像列表*/
         showAll()
             .then(r => {
                 setAvatarList(r.data.data.list);
             })
-    }, [])
-
-    // 获取个人信息
-    useEffect(() => {
+        // 获取个人信息
         info().then(r => {
             setUserInfo(r.data.data.user);
         });
     }, [])
+
+    // 未读消息数
+    useEffect(() => {
+        if (loginState) {
+            noReadCnt(parseInt(localStorage.getItem("id") as string))
+                .then(r => {
+                    setNoRead(r.data.data.count);
+                })
+        }
+    }, [loginState])
 
     /*关闭登录框*/
     function close() {
@@ -110,7 +120,11 @@ export const MainLayout = (props: Props) => {
             <section>
                 {loginState ?
                     <div className={styles["have_sign"]}>
-                        <img src={email} alt={"email-icon"}/>
+                        <Badge count={noRead}>
+                            <Link to={"/home/user_news"} onClick={window.location.reload}>
+                                <img src={email} alt={"email-icon"} />
+                            </Link>
+                        </Badge>
                         <Dropdown overlay={userItems}>
                             <img src={user} alt={"person-icon"}/>
                         </Dropdown>
