@@ -96,10 +96,9 @@ export const User = () => {
                     <p style={{fontSize: 20}}>{item.content}</p>
                     <Space>
                         {item.create_time}
-                        {}
                         <Link to={`/home/article/${item.carrier_id}`} state={{
                             id: item.carrier_id,
-                            area: item.area,  // X
+                            area: item.area,
                         }}>
                             回复
                         </Link>
