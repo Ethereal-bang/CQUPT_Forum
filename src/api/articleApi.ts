@@ -27,3 +27,11 @@ export const getCollect = (id: number) => {
         }
     })
 }
+
+export const mostComment = () => {
+    return axiosInstance.get("/article/post/mostComment");
+}
+
+export const recentComment = () => {
+    return axiosInstance.get("/article/post/recentComment");
+}

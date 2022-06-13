@@ -4,10 +4,11 @@ import {useEffect, useState} from "react";
 import {Link} from "react-router-dom";
 import homeIcon from "../../assets/icons/home.png";
 import Search from "antd/es/input/Search";
-import {showNotices, showPosts} from "../../api/articleApi";
+import {mostComment, recentComment, showNotices, showPosts} from "../../api/articleApi";
 import {NoticeInterface, Post} from "../../interfaces";
 import topIcon from "../../assets/icons/top.png";
 import visitIcon from "../../assets/icons/visit.png";
+import {titleMap} from "../discuss/Discuss";
 
 const {TabPane} = Tabs;
 
@@ -17,9 +18,10 @@ function search(value: string) {
 
 export const Notice = () => {
     const [infoList, setInfoList] = useState<Map<string, NoticeInterface[]>>(); // 校园告示列表
-    const [postList, setPostList] = useState<Map<string, Post[]>>();
+    const [mostCommentPosts, setMostCommentPosts] = useState<Post[]>(); // ”大家都在讨论“
+    const [recentCommentPosts, setRecentCommentPosts] = useState<Post[]>(); // 最新回复
 
-    // 请求文章
+    // 请求公告、正在讨论
     useEffect(() => {
         showNotices()
             .then(r => {
@@ -30,18 +32,14 @@ export const Notice = () => {
                     return new Map(infoList);
                 })
             })
-        showPosts()
+        mostComment()
             .then(r => {
-                const {data} = r.data;
-                setPostList(postList => {
-                    postList?.set("share", data.share);
-                    postList?.set("study", data.study);
-                    postList?.set("tech", data.tech);
-                    postList?.set("work", data.work);
-                    return new Map(postList);
-                })
+                setMostCommentPosts(r.data.data.list);
             })
-        console.log(infoList?.get("game"))
+        recentComment()
+            .then(r => {
+                setRecentCommentPosts(r.data.data.list)
+            })
     }, [])
 
     return <>
@@ -133,12 +131,24 @@ export const Notice = () => {
             <section className={styles["right"]}>
                 <section className={styles["top"]}>
                     <h4>大家都在讨论↓</h4>
-                    <ul>
+                    <ul className={styles["comment_post"]}>
+                        {mostCommentPosts?.map(item => (
+                            <li key={item.id}>
+                                [<span style={{color: "red"}}>{titleMap[item.area as string]}</span>]&nbsp;
+                                <span>{item.title}</span>
+                            </li>
+                        ))}
                     </ul>
                 </section>
                 <section className={styles["bottom"]}>
                     <h4>最新回复↓</h4>
-                    <ul>
+                    <ul className={styles["comment_post"]}>
+                        {recentCommentPosts?.map(item => (
+                            <li key={item.id}>
+                                [<span style={{color: "red"}}>{titleMap[item.area as string]}</span>]&nbsp;
+                                <span>{item.title}</span>
+                            </li>
+                        ))}
                     </ul>
                 </section>
             </section>

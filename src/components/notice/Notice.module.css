@@ -29,3 +29,12 @@
     height: 220px;
     border: 1px solid #dadada;
 }
+
+.comment_post {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+.comment_post li {
+    font-size: 20px;
+}
