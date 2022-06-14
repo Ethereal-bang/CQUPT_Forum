@@ -1,5 +1,5 @@
 import {axiosInstance} from "./createAxios";
-import {News} from "../interfaces";
+import {News} from "../common/interfaces";
 
 export const showComment = (id: number) => {
     const url = `/news/${id}/showComment`

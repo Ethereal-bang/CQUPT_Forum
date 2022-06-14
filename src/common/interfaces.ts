@@ -8,9 +8,11 @@ export interface Article {
     like?: number,
     collection?: number,
     state?: string | null,
+    author?: string,
 }
 
 export interface NoticeInterface extends Article {
+    author: "校园官方",
     type: "notices",
     area: "notice" | "game",
 }

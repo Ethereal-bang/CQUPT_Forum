@@ -4,11 +4,11 @@ import {useEffect, useState} from "react";
 import {Link} from "react-router-dom";
 import homeIcon from "../../assets/icons/home.png";
 import Search from "antd/es/input/Search";
-import {mostComment, recentComment, showNotices, showPosts} from "../../api/articleApi";
-import {NoticeInterface, Post} from "../../interfaces";
+import {mostComment, recentComment, showNotices} from "../../api/articleApi";
+import {NoticeInterface, Post} from "../../common/interfaces";
 import topIcon from "../../assets/icons/top.png";
 import visitIcon from "../../assets/icons/visit.png";
-import {titleMap} from "../discuss/Discuss";
+import {areaTitleMap, articleStateMap} from "../../common/map";
 
 const {TabPane} = Tabs;
 
@@ -75,8 +75,10 @@ export const Notice = () => {
                             renderItem={item => (
                                 <List.Item>
                                     <List.Item.Meta
-                                        avatar={<img src={topIcon} alt={"icon"} />}
-                                        title={item.title}
+                                        avatar={<img src={articleStateMap[item.state as string]} alt={"icon"} />}
+                                        title={<Link to={`/home/article/${item.id}`} >
+                                            {item.title}
+                                        </Link>}
                                         description={
                                             <div
                                                 style={{
@@ -86,7 +88,7 @@ export const Notice = () => {
                                             >
                                                 <span>{item.createTime}</span>
                                                 <span>
-                                                    <img src={visitIcon} alt={"icon"} />
+                                                    <img src={visitIcon} alt={"icon"} style={{width: 18}} />
                                                     {item.visit}
                                                 </span>
                                             </div>
@@ -105,8 +107,13 @@ export const Notice = () => {
                             renderItem={item => (
                                 <List.Item>
                                     <List.Item.Meta
-                                        avatar={<img src={topIcon} alt={"icon"} />}
-                                        title={item.title}
+                                        avatar={<img src={articleStateMap[item.state as string]} alt={"icon"} />}
+                                        title={<Link to={`/home/article/${item.id}`} state={{
+                                            area: item.area,
+                                            id: item.id,
+                                        }} >
+                                            {item.title}
+                                        </Link>}
                                         description={
                                             <div
                                                 style={{
@@ -116,7 +123,7 @@ export const Notice = () => {
                                             >
                                                 <span>{item.createTime}</span>
                                                 <span>
-                                                    <img src={visitIcon} alt={"icon"} />
+                                                    <img src={visitIcon} alt={"icon"} style={{width: 18}} />
                                                     {item.visit}
                                                 </span>
                                             </div>
@@ -134,7 +141,7 @@ export const Notice = () => {
                     <ul className={styles["comment_post"]}>
                         {mostCommentPosts?.map(item => (
                             <li key={item.id}>
-                                [<span style={{color: "red"}}>{titleMap[item.area as string]}</span>]&nbsp;
+                                [<span style={{color: "red"}}>{areaTitleMap[item.area as string]}</span>]&nbsp;
                                 <span>{item.title}</span>
                             </li>
                         ))}
@@ -145,7 +152,7 @@ export const Notice = () => {
                     <ul className={styles["comment_post"]}>
                         {recentCommentPosts?.map(item => (
                             <li key={item.id}>
-                                [<span style={{color: "red"}}>{titleMap[item.area as string]}</span>]&nbsp;
+                                [<span style={{color: "red"}}>{areaTitleMap[item.area as string]}</span>]&nbsp;
                                 <span>{item.title}</span>
                             </li>
                         ))}

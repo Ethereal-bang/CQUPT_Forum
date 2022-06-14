@@ -6,15 +6,11 @@ import Search from "antd/es/input/Search";
 import styles from "../discuss/Discuss.module.css";
 import topIcon from "../../assets/icons/top.png";
 import visitIcon from "../../assets/icons/visit.png";
-import {Post} from "../../interfaces";
+import {Post} from "../../common/interfaces";
 import {showPosts} from "../../api/articleApi";
+import {areaTitleMap} from "../../common/map";
 
-export const titleMap: any = {
-    share: "日常分享",
-    study: "学业互助",
-    technology: "技术交流",
-    work: "求职讨论",
-}
+// 应该请求
 const barMap: any = {
     share: "尽情分享你的乐趣生活~",
     study: "学业互助，成就更好的我们~",
@@ -34,7 +30,6 @@ export const Discuss = () => {
 
     // 请求帖子
     useEffect(() => {
-        // const area =
         showPosts()
             .then(r => {
                 setPosts(r.data.data[area]);
@@ -50,7 +45,7 @@ export const Discuss = () => {
                     </Link>
                 </Breadcrumb.Item>
                 <Breadcrumb.Item>
-                    讨论区-{titleMap[area]}
+                    讨论区-{areaTitleMap[area]}
                 </Breadcrumb.Item>
             </Breadcrumb>
             <section>
@@ -91,8 +86,8 @@ export const Discuss = () => {
                                 <span>
                                     <Space>
                                         <div>
-                                            <img src={visitIcon} alt={"icon"}/>
-                                            {item.visit}
+                                            <img src={visitIcon} alt={"icon"} style={{width: 18}} />
+                                            &nbsp;{item.visit}
                                         </div>
                                         <div>
                                             {/*评论量icon*/}

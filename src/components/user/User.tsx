@@ -6,23 +6,13 @@ import homeIcon from "../../assets/icons/home.png";
 import Search from "antd/es/input/Search";
 // import topIcon from "../../assets/icons/top.png";
 import visitIcon from "../../assets/icons/visit.png";
-import {News, Post} from "../../interfaces";
+import {News, Post} from "../../common/interfaces";
 import {getCollect, getPost} from "../../api/articleApi";
 import commentIcon from "../../assets/icons/comment.png";
-import {titleMap as areaMap} from "../discuss/Discuss";
+import {areaTitleMap as areaMap} from "../../common/map";
 import {received} from "../../api/newsApi";
+import {userTitleMap, newsMap} from "../../common/map";
 
-const titleMap: any = {
-    post: "我的发帖",
-    news: "消息中心",
-    collect: "我的收藏",
-}
-const newsMap: any = {
-    comment: "评论了你",
-    collect: "收藏了你的帖子",
-    like: "赞了你的帖子",
-    reply: "回复了你",
-}
 
 export const User = () => {
     const location = useLocation();
@@ -76,7 +66,7 @@ export const User = () => {
                 </Breadcrumb.Item>
                 <Breadcrumb.Item>
                     <Link to={"/home/user_" + area}>
-                        个人中心-{titleMap[area]}
+                        个人中心-{userTitleMap[area]}
                     </Link>
                 </Breadcrumb.Item>
             </Breadcrumb>

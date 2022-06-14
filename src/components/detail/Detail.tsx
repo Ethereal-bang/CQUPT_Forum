@@ -4,9 +4,9 @@ import {useEffect, useState} from "react";
 import {Avatar, Breadcrumb, Button, Input, message, Space} from "antd";
 import homeIcon from "../../assets/icons/home.png";
 import Search from "antd/es/input/Search";
-import {titleMap} from "../discuss/Discuss";
+import {areaTitleMap, articleTypeMap} from "../../common/map";
 import {getArticle} from "../../api/articleApi";
-import {News, Post, User} from "../../interfaces";
+import {Article, News, Post, User} from "../../common/interfaces";
 import visitIcon from "../../assets/icons/visit.png";
 import {infoByName} from "../../api/userApi";
 import {send, showComment} from "../../api/newsApi";
@@ -20,7 +20,7 @@ export const Detail = () => {
     const state = useLocation().state as { area: string, id: number };
     const [area, setArea] = useState<string>(state.area);
     const [id, setId] = useState<number>(state.id); // 文章id
-    const [article, setArticle] = useState<Post>({type: "posts"});
+    const [article, setArticle] = useState<Article>({type: articleTypeMap[area]});
     const [author, setAuthor] = useState<User>();
     const [comment, setComment] = useState<CommentPost>({
         type: "comment",
@@ -40,24 +40,28 @@ export const Detail = () => {
             .then(r => {
                 const {articles} = r.data.data;
                 setArticle(articles);
-                infoByName(articles.author)
-                    .then(r => {
-                        const {user} = r.data.data;
-                        setAuthor(user)
-                        setComment(comment => {
-                            return {
-                                ...comment,
-                                receiver: user.id,
-                                carrier_id: articles?.id
-                            }
+                if (articleTypeMap[area] === "post") {
+                    infoByName(articles.author)
+                        .then(r => {
+                            const {user} = r.data.data;
+                            setAuthor(user)
+                            setComment(comment => {
+                                return {
+                                    ...comment,
+                                    receiver: user.id,
+                                    carrier_id: articles?.id
+                                }
+                            })
                         })
-                    })
+                }
             })
-        showComment(id)
-            .then(r => {
-                setComments(r.data.data.list);
-            })
-    }, [id])
+        if (articleTypeMap[area] === "post") {
+            showComment(id)
+                .then(r => {
+                    setComments(r.data.data.list);
+                })
+        }
+    }, [area, id])
 
     function postComment() {
         send(comment)
@@ -121,7 +125,7 @@ export const Detail = () => {
                 </Breadcrumb.Item>
                 <Breadcrumb.Item>
                     <Link to={"/home/discuss_" + area}>
-                        讨论区-{titleMap[area]}
+                        {articleTypeMap[area]}-{areaTitleMap[area]}
                     </Link>
                 </Breadcrumb.Item>
             </Breadcrumb>
@@ -143,7 +147,7 @@ export const Detail = () => {
                     {article?.author}
                     {article?.createTime}
                     <>
-                        <img src={visitIcon} alt={"icon"}/>
+                        <img src={visitIcon} alt={"icon"} style={{width: 18}}/>
                         {article?.visit}
                     </>
                 </Space>
@@ -157,37 +161,41 @@ export const Detail = () => {
                 <Button size={"small"} onClick={() => likeOrCollect("collect")}>收藏 | {article?.collection}</Button>
             </div>
         </section>
-        <section className={styles["comment"]}>
-            <h1>评论</h1>
-            <section className={styles["post"]}>
-                <Avatar src={author?.avatarLink}/>
-                <span>{article?.author}（我）</span>
-                {comment.type === "reply" && <Space>
-                    <span>to: {comment.name}</span>
-                    <i>“ {comment.toComment} ”</i>
-                </Space>}
-                <Input placeholder={"评论一下吧"} value={comment?.content} onChange={
-                    (e) => setComment({...comment, content: e.target.value})
-                }/>
-                <Button onClick={postComment}>发布</Button>
+        {article.type === "posts" &&
+            <section className={styles["comment"]}>
+                <h1>评论</h1>
+                <section className={styles["post"]}>
+                    <Avatar src={author?.avatarLink}/>
+                    <span>{article?.author}（我）</span>
+                    {comment.type === "reply" && <Space>
+                        <span>to: {comment.name}</span>
+                        <i>“ {comment.toComment} ”</i>
+                    </Space>}
+                    <Input placeholder={"评论一下吧"} value={comment?.content} onChange={
+                        (e) => setComment({...comment, content: e.target.value})
+                    }/>
+                    <Button onClick={postComment}>发布</Button>
+                </section>
+                {/*评论列表*/}
+                {article.type === "posts" &&
+                <section>
+                    {comments?.map(item => (
+                        <section className={styles["comment_box"]} key={item._id}>
+                            <div>
+                                <Avatar src={item.link}/>
+                                <span>{item.name}</span>
+                                <Button size={"small"}>...</Button>
+                            </div>
+                            <p>{item.content}</p>
+                            <Space>
+                                <span>{item.create_time}</span>
+                                <Button size={"small"} onClick={() => commentOn(item)}>回复</Button>
+                            </Space>
+                        </section>
+                    ))}
+                </section>
+                }
             </section>
-            {/*评论列表*/}
-            <section>
-                {comments?.map(item => (
-                    <section className={styles["comment_box"]} key={item._id}>
-                        <div>
-                            <Avatar src={item.link}/>
-                            <span>{item.name}</span>
-                            <Button size={"small"}>...</Button>
-                        </div>
-                        <p>{item.content}</p>
-                        <Space>
-                            <span>{item.create_time}</span>
-                            <Button size={"small"} onClick={() => commentOn(item)}>回复</Button>
-                        </Space>
-                    </section>
-                ))}
-            </section>
-        </section>
+        }
     </>
 }
