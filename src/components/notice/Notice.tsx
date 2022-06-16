@@ -6,7 +6,6 @@ import homeIcon from "../../assets/icons/home.png";
 import Search from "antd/es/input/Search";
 import {mostComment, recentComment, showNotices} from "../../api/articleApi";
 import {NoticeInterface, Post} from "../../common/interfaces";
-import topIcon from "../../assets/icons/top.png";
 import visitIcon from "../../assets/icons/visit.png";
 import {areaTitleMap, articleStateMap} from "../../common/map";
 

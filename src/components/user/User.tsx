@@ -4,7 +4,6 @@ import styles from "./User.module.css";
 import {Breadcrumb, List, Space, Tag} from "antd";
 import homeIcon from "../../assets/icons/home.png";
 import Search from "antd/es/input/Search";
-// import topIcon from "../../assets/icons/top.png";
 import visitIcon from "../../assets/icons/visit.png";
 import {News, Post} from "../../common/interfaces";
 import {getCollect, getPost} from "../../api/articleApi";
@@ -12,7 +11,6 @@ import commentIcon from "../../assets/icons/comment.png";
 import {areaTitleMap as areaMap} from "../../common/map";
 import {received} from "../../api/newsApi";
 import {userTitleMap, newsMap} from "../../common/map";
-
 
 export const User = () => {
     const location = useLocation();
@@ -119,11 +117,11 @@ export const User = () => {
                                         <span>
                                     <Space>
                                         <div>
-                                            <img src={visitIcon} alt={"icon"}/>
+                                            <img src={visitIcon} alt={"icon"} style={{width: 20}} />
                                             {item.visit}
                                         </div>
                                         <div>
-                                            <img src={commentIcon} alt={"icon"}/>
+                                            <img src={commentIcon} alt={"icon"} style={{width: 20}}/>
                                             {item.comment}
                                         </div>
                                     </Space>
