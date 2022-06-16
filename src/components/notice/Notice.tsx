@@ -141,7 +141,10 @@ export const Notice = () => {
                         {mostCommentPosts?.map(item => (
                             <li key={item.id}>
                                 [<span style={{color: "red"}}>{areaTitleMap[item.area as string]}</span>]&nbsp;
-                                <span>{item.title}</span>
+                                <Link to={`/home/article/${item.id}`} state={{
+                                    id: item.id,
+                                    area: item.area,
+                                }}>{item.title}</Link>
                             </li>
                         ))}
                     </ul>
@@ -152,7 +155,10 @@ export const Notice = () => {
                         {recentCommentPosts?.map(item => (
                             <li key={item.id}>
                                 [<span style={{color: "red"}}>{areaTitleMap[item.area as string]}</span>]&nbsp;
-                                <span>{item.title}</span>
+                                <Link to={`/home/article/${item.id}`} state={{
+                                    id: item.id,
+                                    area: item.area,
+                                }}>{item.title}</Link>
                             </li>
                         ))}
                     </ul>
