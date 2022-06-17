@@ -1,6 +1,8 @@
 import topIcon from "../assets/icons/top.png";
 import greatIcon from "../assets/icons/great.png";
 import articleIcon from "../assets/icons/article.png";
+import userIcon from "../assets/icons/user.png";
+import commentIcon from "../assets/icons/comment.png";
 
 export const articleTypeMap: any = {
     share: "post",
@@ -38,4 +40,16 @@ export const newsMap: any = {
     collect: "收藏了你的帖子",
     like: "赞了你的帖子",
     reply: "回复了你",
+}
+
+export const statisticsMap: any = {
+    newPosts: "新增帖子数",
+    allUsers: "用户数量",
+    comment: "评论数",
+}
+
+export const statisticsImgMap: any = {
+    newPosts: articleIcon,
+    allUsers: userIcon,
+    comment: commentIcon,
 }

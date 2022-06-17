@@ -1,0 +1,13 @@
+.container {
+    /*padding: 30px;*/
+}
+
+.box {
+    width: 100%;
+    display: flex;
+    padding-bottom: 20px;
+    background-color: #efefef;
+}
+.statistic {
+    margin-right: 50px !important;
+}

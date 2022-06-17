@@ -47,3 +47,9 @@ export interface News {
     create_time?: string,
     area?: string,
 }
+
+export interface Statistics {
+    newPosts: number,
+    allUsers: number,
+    comment: number,
+}

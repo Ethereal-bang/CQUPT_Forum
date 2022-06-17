@@ -8,8 +8,8 @@ import {Root} from "./pages/root/Root";
 function App() {
     return <BrowserRouter>
         <Routes>
-            <Route path={"/"} element={<Root />} />
             <Route path={"/home/*"} element={<Home />} />
+            <Route path={"/rooter"} element={<Root />} />
         </Routes>
     </BrowserRouter>
 }

@@ -1,0 +1,15 @@
+.root {
+    display: flex;
+    justify-content: space-between;
+}
+
+.menu {
+    width: 123px;
+
+}
+
+.container {
+    width: 88%;
+    background-color: #ffffff;
+    vertical-align: top;
+}
