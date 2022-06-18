@@ -31,3 +31,9 @@ export const delArea = (id: number) => {
         }
     })
 }
+
+export const addNotice = (title: string, content: string, area: string) => {
+    return axiosInstance.post("/root/addNotice", {
+        title, content, area,
+    })
+}

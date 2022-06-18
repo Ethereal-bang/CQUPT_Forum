@@ -5,3 +5,4 @@ export * from "./detail/Detail";
 export * from "./user/User";
 export * from "./data/Data";
 export * from "./areaManage/AreaManage";
+export * from "./postManage/PostManage";

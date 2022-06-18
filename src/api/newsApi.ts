@@ -14,7 +14,6 @@ export const send = (news: News) => {
         type: news.type,
         content: news.content,
     }
-    console.log(data)
     return axiosInstance.post("/news/send", data)
 }
 
