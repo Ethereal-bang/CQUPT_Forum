@@ -1,7 +1,7 @@
 import styles from "./Root.module.css";
 import {Menu} from "antd";
 import {Link, Route, Routes} from "react-router-dom";
-import {AreaManage, Data, PostManage} from "../../components";
+import {AreaManage, Data, PostManage, UserManage} from "../../components";
 
 const items = [
     {label: <Link to={"/rooter"}>工作台</Link>, key: "home",},
@@ -31,6 +31,7 @@ export const Root = () => {
                 <Route path={"/area"} element={<AreaManage/>}/>
                 <Route path={"/post"} element={<PostManage/>}/>
                 <Route path={"/notice"} element={<PostManage/>}/>
+                <Route path={"/user"} element={<UserManage/>}/>
             </Routes>
         </section>
     </section>

@@ -37,3 +37,7 @@ export const addNotice = (title: string, content: string, area: string) => {
         title, content, area,
     })
 }
+
+export const showUsers = () => {
+    return axiosInstance.get("/root/user");
+}
