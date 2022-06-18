@@ -53,3 +53,10 @@ export interface Statistics {
     allUsers: number,
     comment: number,
 }
+
+export interface Area {
+    id: number,
+    name: string,
+    url: string,
+    words: string,
+}
