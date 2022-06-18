@@ -60,3 +60,12 @@ export interface Area {
     url: string,
     words: string,
 }
+
+export interface Report {
+    id: number,
+    reporter: number,
+    reported: number,
+    type: string,
+    comment: number,
+    post: number,
+}

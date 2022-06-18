@@ -41,3 +41,7 @@ export const addNotice = (title: string, content: string, area: string) => {
 export const showUsers = () => {
     return axiosInstance.get("/root/user");
 }
+
+export const showReports = () => {
+    return axiosInstance.get("/root/report");
+}

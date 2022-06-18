@@ -7,3 +7,4 @@ export * from "./data/Data";
 export * from "./areaManage/AreaManage";
 export * from "./postManage/PostManage";
 export * from "./userManage/UserManage";
+export * from "./reportManage/ReportManage";
