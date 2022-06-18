@@ -7,3 +7,11 @@ export const addReport = (type: string, reporter: number, reported: string, cont
         }
     });
 }
+
+export const delReport = (id: number) => {
+    return axiosInstance.get("/report/del", {
+        params: {
+            id,
+        }
+    })
+}
