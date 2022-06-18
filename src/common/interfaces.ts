@@ -64,7 +64,7 @@ export interface Area {
 export interface Report {
     id: number,
     reporter: number,
-    reported: number,
+    reported: string,
     type: string,
     comment: number,
     post: number,

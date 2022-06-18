@@ -6,10 +6,11 @@ import homeIcon from "../../assets/icons/home.png";
 import Search from "antd/es/input/Search";
 import {areaTitleMap, articleTypeMap} from "../../common/map";
 import {getArticle} from "../../api/articleApi";
-import {Article, News, Post, User} from "../../common/interfaces";
+import {Article, News, User} from "../../common/interfaces";
 import visitIcon from "../../assets/icons/visit.png";
 import {infoByName} from "../../api/userApi";
 import {send, showComment} from "../../api/newsApi";
+import {addReport} from "../../api/reportApi";
 
 interface CommentPost extends News {
     type: "comment" | "reply",
@@ -115,6 +116,20 @@ export const Detail = () => {
             })
     }
 
+    // 举报帖子
+    function reportPost() {
+        const reporter = parseInt(localStorage.getItem("id") as string),
+            reported = article.author as string,
+            post = article.id;
+        addReport("post", reporter, reported, post).then(r => {
+            if (r.data.flag) {
+                message.success(r.data.msg);
+            } else {
+                message.error(r.data.msg);
+            }
+        });
+    }
+
     return <>
         <header className={styles["header"]}>
             <Breadcrumb separator={">"}>
@@ -151,7 +166,7 @@ export const Detail = () => {
                         {article?.visit}
                     </>
                 </Space>
-                <Button style={{float: "right"}}>举报</Button>
+                <Button onClick={reportPost} style={{float: "right"}}>举报</Button>
             </section>
             <div>
                 {article?.content}
