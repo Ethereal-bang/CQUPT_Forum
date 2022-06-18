@@ -117,17 +117,29 @@ export const Detail = () => {
     }
 
     // 举报帖子
-    function reportPost() {
-        const reporter = parseInt(localStorage.getItem("id") as string),
-            reported = article.author as string,
-            post = article.id;
-        addReport("post", reporter, reported, post).then(r => {
-            if (r.data.flag) {
-                message.success(r.data.msg);
-            } else {
-                message.error(r.data.msg);
-            }
-        });
+    function reportPost(type: string, comment?: number, commentReported?: string, commentContent?: string) {
+        const reporter = parseInt(localStorage.getItem("id") as string);
+        if (type === "post") {
+            const post = article.id,
+                reported = article.author as string,
+                content = article.content;
+            addReport(type, reporter, reported, content as string, post).then(r => {
+                if (r.data.flag) {
+                    message.success(r.data.msg);
+                } else {
+                    message.error(r.data.msg);
+                }
+            })
+        } else {
+            addReport(type, reporter, commentReported as string, commentContent as string, undefined, comment).then(r => {
+                if (r.data.flag) {
+                    message.success(r.data.msg);
+                } else {
+                    message.error(r.data.msg);
+                }
+            })
+        }
+
     }
 
     return <>
@@ -166,7 +178,7 @@ export const Detail = () => {
                         {article?.visit}
                     </>
                 </Space>
-                <Button onClick={reportPost} style={{float: "right"}}>举报</Button>
+                <Button onClick={() => reportPost("post")} style={{float: "right"}}>举报</Button>
             </section>
             <div>
                 {article?.content}
@@ -199,12 +211,12 @@ export const Detail = () => {
                             <div>
                                 <Avatar src={item.link}/>
                                 <span>{item.name}</span>
-                                <Button size={"small"}>...</Button>
                             </div>
                             <p>{item.content}</p>
                             <Space>
                                 <span>{item.create_time}</span>
                                 <Button size={"small"} onClick={() => commentOn(item)}>回复</Button>
+                                <Button size={"small"} onClick={() => reportPost("comment", item._id, item.name, item.content)}>举报</Button>
                             </Space>
                         </section>
                     ))}
