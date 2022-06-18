@@ -1,5 +1,4 @@
 import {axiosInstance} from "./createAxios";
-import {Area} from "../common/interfaces";
 
 export const getStatistics = () => {
     return axiosInstance.get("/root/data");
@@ -21,6 +20,14 @@ export const setArea = (id: number, name: string, url: string, words: string) =>
     return axiosInstance.get("/root/setArea", {
         params: {
             id, name, url, words,
+        }
+    })
+}
+
+export const delArea = (id: number) => {
+    return axiosInstance.get("/root/delArea", {
+        params: {
+            id,
         }
     })
 }

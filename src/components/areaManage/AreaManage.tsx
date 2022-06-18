@@ -1,6 +1,6 @@
-import {Button, Form, Input, message, Popconfirm, Table, Typography} from "antd";
+import {Button, Form, Input, message, Popconfirm, Space, Table, Typography} from "antd";
 import styles from "./AreaManage.module.css";
-import {addArea, getAreas, setArea} from "../../api/rootApi";
+import {addArea, delArea, getAreas, setArea} from "../../api/rootApi";
 import React, {useEffect, useState} from "react";
 import {Area} from "../../common/interfaces";
 
@@ -23,18 +23,25 @@ export const AreaManage = () => {
             dataIndex: "url",
             key: "url",
         }, {
-            title: "编辑",
+            title: "Edit",
             dataIndex: "edit",
             render: (_: any, record: Area) => {
-                return (editKey === record.id) ? (
-                    <Typography.Link disabled={true}>
-                        请于上方修改提交
-                    </Typography.Link>
-                ) : (
-                    <Typography.Link disabled={editKey !== -1} onClick={() => edit(record)}>
-                        Edit
-                    </Typography.Link>
-                )
+                return <Space>
+                    {(editKey === record.id) ? (
+                        <Typography.Link disabled={true}>
+                            请于上方修改提交
+                        </Typography.Link>
+                    ) : (
+                        <Typography.Link disabled={editKey !== -1} onClick={() => edit(record)}>
+                            修改
+                        </Typography.Link>
+                    )}
+                    <Popconfirm title={"确定要删除吗?"} onConfirm={() => delRecord(record.id)}>
+                        <Typography.Link>
+                            删除
+                        </Typography.Link>
+                    </Popconfirm>
+                </Space>
             }
         }
     ]
@@ -45,6 +52,7 @@ export const AreaManage = () => {
             addArea(name, url, words).then(r => {
                 if (r.data.flag) {
                     message.success(r.data.msg);
+                    renderAreasList();
                 } else {
                     message.error(r.data.msg);
                 }
@@ -65,13 +73,29 @@ export const AreaManage = () => {
     function edit(record: Area) {
         setEditKey(record.id);
         form.setFieldsValue({...record});
+        renderAreasList();
+    }
+
+    function delRecord(id: number) {
+        delArea(id).then(r => {
+            if (r.data.flag) {
+                message.success(r.data.msg);
+                renderAreasList();
+            } else {
+                message.error(r.data.msg);
+            }
+        })
+    }
+
+    function renderAreasList() {
+        getAreas().then(r => {
+            setAreas(r.data.data.list)
+        })
     }
 
     // 请求
     useEffect(() => {
-        getAreas().then(r => {
-            setAreas(r.data.data.list)
-        })
+        renderAreasList();
     }, [])
 
     return <>
