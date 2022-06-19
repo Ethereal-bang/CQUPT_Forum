@@ -61,7 +61,7 @@ export const Notice = () => {
                 onSearch={search}
             />
         </header>
-        <p className={styles["info"]}>今日新增：{} 篇 帖子总数：{} 篇 在线：{} 人</p>
+        {/*<p className={styles["info"]}>今日新增：{} 篇 帖子总数：{} 篇 在线：{} 人</p>*/}
         <section className={styles["body"]}>
             <section className={styles["left"]}>
                 <Tabs className={styles["tabs"]}>
@@ -75,7 +75,10 @@ export const Notice = () => {
                                 <List.Item>
                                     <List.Item.Meta
                                         avatar={<img src={articleStateMap[item.state as string]} alt={"icon"} />}
-                                        title={<Link to={`/home/article/${item.id}`} >
+                                        title={<Link to={`/home/article/${item.id}`} state={{
+                                            id: item.id,
+                                            area: item.area,
+                                        }} >
                                             {item.title}
                                         </Link>}
                                         description={

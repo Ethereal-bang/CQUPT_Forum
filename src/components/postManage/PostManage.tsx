@@ -96,8 +96,8 @@ export const PostManage = () => {
     </Form>
 
     function submitPost(values: any) {
-        const {title, content, type} = values;
-        addNotice(title, content, type).then(r => {
+        const {title, content, area} = values;
+        addNotice(title, content, area).then(r => {
             if (r.data.flag) {
                 message.success(r.data.msg);
                 form.resetFields();
