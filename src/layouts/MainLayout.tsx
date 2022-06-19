@@ -105,7 +105,7 @@ export const MainLayout = (props: Props) => {
     // 提交修改个人资料
     function submitInfo(value: any) {
         set(value.name, value.img).then(r => {
-            const {data} = r.data;
+            const data = r.data;
             if (data.flag) {
                 message.success(data.msg);
             } else {
